@@ -1,0 +1,19 @@
+diff --git a/node_modules/esbuild/bin/esbuild b/node_modules/esbuild/bin/esbuild
+old mode 100755
+new mode 100644
+index 7b300ef..f066b8d
+Binary files a/node_modules/esbuild/bin/esbuild and b/node_modules/esbuild/bin/esbuild differ
+diff --git a/node_modules/esbuild/lib/main.js b/node_modules/esbuild/lib/main.js
+index 49721d1..25e41af 100644
+--- a/node_modules/esbuild/lib/main.js
++++ b/node_modules/esbuild/lib/main.js
+@@ -1845,7 +1845,8 @@ by esbuild to install the correct binary executable for your current platform.`)
+ }
+ 
+ // lib/npm/node.ts
+-var child_process = require("child_process");
++// BUN NOTE: not implemented
++// var child_process = require("child_process");
+ var crypto = require("crypto");
+ var path2 = require("path");
+ var fs2 = require("fs");
