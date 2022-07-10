@@ -7,6 +7,9 @@
     "dev": "bun ./node_modules/vite/bin/vite.js",
     "build": "bun ./node_modules/vite/bin/vite.js build",
     "preview": "bun ./node_modules/vite/bin/vite.js preview",
+    "node-dev": "node ./node_modules/vite/bin/vite.js",
+    "node-build": "node ./node_modules/vite/bin/vite.js build",
+    "node-preview": "node ./node_modules/vite/bin/vite.js preview",
     "postinstall": "patch-package"
   },
   "devDependencies": {
