@@ -4,9 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview",
+    "dev": "bun ./node_modules/vite/bin/vite.js",
+    "build": "bun ./node_modules/vite/bin/vite.js build",
+    "preview": "bun ./node_modules/vite/bin/vite.js preview",
     "postinstall": "patch-package"
   },
   "devDependencies": {
