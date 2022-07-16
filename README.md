@@ -29,7 +29,7 @@ Below are a list of issues found, though you can see the finer changes in the [p
 
 ## Notes
 
-- Tried [bun-utilities](https://github.com/xHyroM/bun-utilities) to polyfill `child_process` for esbuild, but it doesn't look like it exports darwin-arm64 binaries. I'm also not sure if it's 100% compatible, if comparing esbuild's usage. (See [esbuild temp patch](/patches_temp/esbuild%2B0.14.48.patch))
+- Tried [bun-utilities](https://github.com/xHyroM/bun-utilities) to polyfill `child_process` for esbuild. I'm also not sure if it's 100% compatible, if comparing esbuild's usage. (See [esbuild temp patch](/patches_temp/esbuild%2B0.14.48.patch))
 
 ## Development
 

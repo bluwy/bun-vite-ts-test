@@ -60,12 +60,12 @@ index 49721d1..22fdbe2 100644
 +  // BUN NOTE: Use bun-utilities compatible API
 +  let stdout;
 +  if (process.versions.bun) {
-+    stdout = child_process.exec(command, args.concat(`--service=${"0.14.48"}`), {
++    stdout = child_process.spawn(command, args.concat(`--service=${"0.14.48"}`), {
 +      cwd: defaultWD,
 +      // windowsHide: true,
 +      // input: stdin,
 +      // maxBuffer: +process.env.ESBUILD_MAX_BUFFER || 16 * 1024 * 1024
-+    });
++    }).stdout;
 +  } else {
 +    stdout = child_process.exec(command, args.concat(`--service=${"0.14.48"}`), {
 +      cwd: defaultWD,
