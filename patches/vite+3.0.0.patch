@@ -1,22 +1,20 @@
 diff --git a/node_modules/vite/bin/vite.js b/node_modules/vite/bin/vite.js
-index 5814f26..06c35d4 100755
+index 5814f26..8fd1e2a 100755
 --- a/node_modules/vite/bin/vite.js
 +++ b/node_modules/vite/bin/vite.js
-@@ -1,6 +1,12 @@
+@@ -1,5 +1,9 @@
 -#!/usr/bin/env node
+-import { performance } from 'node:perf_hooks'
 +#!/usr/bin/env bun
- import { performance } from 'node:perf_hooks'
- 
-+// BUN NOTE: bun shims
-+globalThis.self = globalThis
-+
 +// BUN NOTE: use `globalThis.performance`
 +// import { performance } from 'node:perf_hooks'
 +
++// BUN NOTE: bun shims
++globalThis.self = globalThis
+ 
  if (!import.meta.url.includes('node_modules')) {
    try {
-     // only available as dev dependency
-@@ -8,7 +14,8 @@ if (!import.meta.url.includes('node_modules')) {
+@@ -8,7 +12,8 @@ if (!import.meta.url.includes('node_modules')) {
    } catch (e) {}
  }
  
@@ -26,13 +24,17 @@ index 5814f26..06c35d4 100755
  
  // check debug mode first before requiring the CLI.
  const debugIndex = process.argv.findIndex((arg) => /^(?:-d|--debug)$/.test(arg))
-@@ -59,3 +66,6 @@ if (profileIndex > 0) {
+@@ -59,3 +64,6 @@ if (profileIndex > 0) {
  } else {
    start()
  }
 +
 +// BUN NOTE: Dynamic import this have no effect for some reason
 +import '../dist/node/cli.js'
+diff --git a/node_modules/vite/dist/node/.DS_Store b/node_modules/vite/dist/node/.DS_Store
+new file mode 100644
+index 0000000..b82f121
+Binary files /dev/null and b/node_modules/vite/dist/node/.DS_Store differ
 diff --git a/node_modules/vite/dist/node/chunks/dep-07a79996.js b/node_modules/vite/dist/node/chunks/dep-07a79996.js
 index b471e60..72fcf39 100644
 --- a/node_modules/vite/dist/node/chunks/dep-07a79996.js
@@ -54,59 +56,8 @@ index b471e60..72fcf39 100644
  var openParentheses = "(".charCodeAt(0);
  var closeParentheses = ")".charCodeAt(0);
  var singleQuote = "'".charCodeAt(0);
-diff --git a/node_modules/vite/dist/node/chunks/dep-21ac9d2b.js b/node_modules/vite/dist/node/chunks/dep-21ac9d2b.js
-index fb5d070..be26d7b 100644
---- a/node_modules/vite/dist/node/chunks/dep-21ac9d2b.js
-+++ b/node_modules/vite/dist/node/chunks/dep-21ac9d2b.js
-@@ -10,10 +10,13 @@ import { fileURLToPath as __cjs_fileURLToPath } from 'node:url';
- import { dirname as __cjs_dirname } from 'node:path';
- import { createRequire as __cjs_createRequire } from 'node:module';
- 
--const __filename = __cjs_fileURLToPath(import.meta.url);
-+// BUN NOTE: fileUrlToPath does not accept strings
-+const __filename = __cjs_fileURLToPath(new URL(import.meta.url));
- const __dirname = __cjs_dirname(__filename);
--const require = __cjs_createRequire(import.meta.url);
--const __require = require;
-+// BUN NOTE: createRequire works correctly with URL only
-+// BUN NOTE: refactor as `_require` so bun don't think this file is CJS
-+const _require = __cjs_createRequire(new URL(import.meta.url));
-+const __require = _require;
- function _mergeNamespaces(n, m) {
-   for (var i = 0; i < m.length; i++) {
-     var e = m[i];
-@@ -1595,7 +1598,7 @@ class FileSystemLoader {
-       // if the path is not relative or absolute, try to resolve it in node_modules
-       if (newPath[0] !== "." && newPath[0] !== "/") {
-         try {
--          fileRelativePath = require.resolve(newPath);
-+          fileRelativePath = _require.resolve(newPath);
-         } catch (e) {
-           // noop
-         }
-diff --git a/node_modules/vite/dist/node/chunks/dep-235df460.js b/node_modules/vite/dist/node/chunks/dep-235df460.js
-index 95036e8..9b8cfa0 100644
---- a/node_modules/vite/dist/node/chunks/dep-235df460.js
-+++ b/node_modules/vite/dist/node/chunks/dep-235df460.js
-@@ -4,10 +4,13 @@ import { fileURLToPath as __cjs_fileURLToPath } from 'node:url';
- import { dirname as __cjs_dirname } from 'node:path';
- import { createRequire as __cjs_createRequire } from 'node:module';
- 
--const __filename = __cjs_fileURLToPath(import.meta.url);
-+// BUN NOTE: fileUrlToPath does not accept strings
-+const __filename = __cjs_fileURLToPath(new URL(import.meta.url));
- const __dirname = __cjs_dirname(__filename);
--const require = __cjs_createRequire(import.meta.url);
--const __require = require;
-+// BUN NOTE: createRequire works correctly with URL only
-+// BUN NOTE: refactor as `_require` so bun don't think this file is CJS
-+const _require = __cjs_createRequire(new URL(import.meta.url));
-+const __require = _require;
- function _mergeNamespaces(n, m) {
-     for (var i = 0; i < m.length; i++) {
-         var e = m[i];
 diff --git a/node_modules/vite/dist/node/chunks/dep-41eb528c.js b/node_modules/vite/dist/node/chunks/dep-41eb528c.js
-index f04be91..f412f8c 100644
+index f04be91..4e19038 100644
 --- a/node_modules/vite/dist/node/chunks/dep-41eb528c.js
 +++ b/node_modules/vite/dist/node/chunks/dep-41eb528c.js
 @@ -7,10 +7,13 @@ import { fileURLToPath as __cjs_fileURLToPath } from 'node:url';
@@ -126,10 +77,10 @@ index f04be91..f412f8c 100644
  function _mergeNamespaces(n, m) {
    for (var i = 0; i < m.length; i++) {
      var e = m[i];
-diff --git a/node_modules/vite/dist/node/chunks/dep-58325dc2.js b/node_modules/vite/dist/node/chunks/dep-58325dc2.js
-index c79144a..213f262 100644
---- a/node_modules/vite/dist/node/chunks/dep-58325dc2.js
-+++ b/node_modules/vite/dist/node/chunks/dep-58325dc2.js
+diff --git a/node_modules/vite/dist/node/chunks/dep-561c5231.js b/node_modules/vite/dist/node/chunks/dep-561c5231.js
+index cd14c84..0b45186 100644
+--- a/node_modules/vite/dist/node/chunks/dep-561c5231.js
++++ b/node_modules/vite/dist/node/chunks/dep-561c5231.js
 @@ -1,11 +1,14 @@
  import fs$l, { promises as promises$2 } from 'node:fs';
  import path$n, { resolve as resolve$6, join as join$2, posix as posix$2, isAbsolute as isAbsolute$2, relative as relative$2, dirname as dirname$2, basename as basename$2, extname as extname$1 } from 'node:path';
@@ -206,7 +157,7 @@ index c79144a..213f262 100644
  				Boolean(exports.inspectOpts.colors) :
 -				tty.isatty(process.stderr.fd);
 +        // BUN NOTE: process.stderr.fd not implemented
-+				tty.isatty(2);
++  			tty.isatty(2);
  		}
  
  		/**
@@ -220,7 +171,7 @@ index c79144a..213f262 100644
      let startIndex = 0;
      let splitIndex;
      do {
-@@ -12407,8 +12416,9 @@ function clearScreen() {
+@@ -12449,8 +12458,9 @@ function clearScreen() {
      const repeatCount = process.stdout.rows - 2;
      const blank = repeatCount > 0 ? '\n'.repeat(repeatCount) : '';
      console.log(blank);
@@ -232,18 +183,17 @@ index c79144a..213f262 100644
  }
  function createLogger(level = 'info', options = {}) {
      if (options.customLogger) {
-@@ -12417,7 +12427,9 @@ function createLogger(level = 'info', options = {}) {
+@@ -12459,7 +12469,8 @@ function createLogger(level = 'info', options = {}) {
      const loggedErrors = new WeakSet();
      const { prefix = '[vite]', allowClearScreen = true } = options;
      const thresh = LogLevels[level];
 -    const canClearScreen = allowClearScreen && process.stdout.isTTY && !process.env.CI;
 +    // BUN NOTE: process.stdout.isTTY not implemented
 +    const canClearScreen = false
-+    // const canClearScreen = allowClearScreen && process.stdout.isTTY && !process.env.CI;
      const clear = canClearScreen ? clearScreen : () => { };
      function output(type, msg, options = {}) {
          if (thresh >= LogLevels[type]) {
-@@ -13688,7 +13700,7 @@ function terserPlugin(config) {
+@@ -13684,7 +13695,7 @@ function terserPlugin(config) {
      const makeWorker = () => new Worker_1(async (terserPath, code, options) => {
          // test fails when using `import`. maybe related: https://github.com/nodejs/node/issues/43205
          // eslint-disable-next-line no-restricted-globals -- this function runs inside cjs
@@ -252,7 +202,7 @@ index c79144a..213f262 100644
          return terser.minify(code, options);
      });
      let worker;
-@@ -22818,8 +22830,10 @@ function foldLines(source) {
+@@ -22814,8 +22825,10 @@ function foldLines(source) {
       */
      let first, line;
      try {
@@ -265,7 +215,7 @@ index c79144a..213f262 100644
      }
      catch (_) {
          first = /(.*?)[ \t]*\r?\n/sy;
-@@ -25903,7 +25917,8 @@ const createContext = (ctx) => {
+@@ -25899,7 +25912,8 @@ const createContext = (ctx) => {
    }, ctx);
  
    if (!ctx.env) {
@@ -275,7 +225,7 @@ index c79144a..213f262 100644
    }
  
    return ctx
-@@ -35702,7 +35717,8 @@ const htmlTypesRE = /\.(html|vue|svelte|astro)$/;
+@@ -35698,7 +35712,8 @@ const htmlTypesRE = /\.(html|vue|svelte|astro)$/;
  // use Acorn because it's slow. Luckily this doesn't have to be bullet proof
  // since even missed imports can be caught at runtime, and false positives will
  // simply be ignored.
@@ -285,7 +235,7 @@ index c79144a..213f262 100644
  async function scanImports(config) {
      // Only used to scan non-ssr code
      const start = performance.now();
-@@ -37336,7 +37352,9 @@ function matchAll(regex, string, addition) {
+@@ -37333,7 +37348,9 @@ function matchAll(regex, string, addition) {
    return matches;
  }
  
@@ -296,7 +246,7 @@ index c79144a..213f262 100644
  function findStaticImports(code) {
    return matchAll(ESM_STATIC_IMPORT_RE, code, { type: "static" });
  }
-@@ -40964,7 +40982,8 @@ function polyfill() {
+@@ -40964,7 +40981,8 @@ function polyfill() {
  const htmlProxyRE$1 = /\?html-proxy=?[&inline\-css]*&index=(\d+)\.(js|css)$/;
  const inlineCSSRE$1 = /__VITE_INLINE_CSS__([a-z\d]{8}_\d+)__/g;
  // Do not allow preceding '.', but do allow preceding '...' for spread operations
@@ -306,7 +256,7 @@ index c79144a..213f262 100644
  const htmlLangRE = /\.(html|htm)$/;
  const isHTMLProxy = (id) => htmlProxyRE$1.test(id);
  const isHTMLRequest = (request) => htmlLangRE.test(request);
-@@ -42334,10 +42353,13 @@ async function resolvePostcssConfig(config) {
+@@ -42334,10 +42352,13 @@ async function resolvePostcssConfig(config) {
      return result;
  }
  // https://drafts.csswg.org/css-syntax-3/#identifier-code-point
@@ -323,7 +273,7 @@ index c79144a..213f262 100644
  const UrlRewritePostcssPlugin = (opts) => {
      if (!opts) {
          throw new Error('base or replace is required');
-@@ -42489,7 +42511,8 @@ async function hoistAtRules(css) {
+@@ -42489,7 +42510,8 @@ async function hoistAtRules(css) {
      // CSS @import can only appear at top of the file. We need to hoist all @import
      // to top when multiple files are concatenated.
      // match until semicolon that's not in quotes
@@ -333,7 +283,7 @@ index c79144a..213f262 100644
      while ((match = atImportRE.exec(cleanCss))) {
          s.remove(match.index, match.index + match[0].length);
          // Use `appendLeft` instead of `prepend` to preserve original @import order
-@@ -42497,7 +42520,8 @@ async function hoistAtRules(css) {
+@@ -42497,7 +42519,8 @@ async function hoistAtRules(css) {
      }
      // #6333
      // CSS @charset must be the top-first in the file, hoist the first to top
@@ -343,7 +293,7 @@ index c79144a..213f262 100644
      let foundCharset = false;
      while ((match = atCharsetRE.exec(cleanCss))) {
          s.remove(match.index, match.index + match[0].length);
-@@ -50090,7 +50114,7 @@ function ssrRequireHookPlugin(config) {
+@@ -50090,7 +50113,7 @@ function ssrRequireHookPlugin(config) {
  /** Respect the `resolve.dedupe` option in production SSR. */
  function dedupeRequire(dedupe) {
      // eslint-disable-next-line no-restricted-globals
@@ -352,7 +302,7 @@ index c79144a..213f262 100644
      const resolveFilename = Module._resolveFilename;
      Module._resolveFilename = function (request, parent, isMain, options) {
          if (request[0] !== '.' && request[0] !== '/') {
-@@ -50515,7 +50539,7 @@ bufferUtil$1.exports = {
+@@ -50515,7 +50538,7 @@ bufferUtil$1.exports = {
  /* istanbul ignore else  */
  if (!process.env.WS_NO_BUFFER_UTIL) {
    try {
@@ -361,7 +311,7 @@ index c79144a..213f262 100644
  
      bufferUtil$1.exports.mask = function (source, mask, output, offset, length) {
        if (length < 48) _mask(source, mask, output, offset, length);
-@@ -51211,7 +51235,7 @@ validation.exports = {
+@@ -51211,7 +51234,7 @@ validation.exports = {
  /* istanbul ignore else  */
  if (!process.env.WS_NO_UTF_8_VALIDATE) {
    try {
@@ -370,7 +320,7 @@ index c79144a..213f262 100644
  
      validation.exports.isValidUTF8 = function (buf) {
        return buf.length < 150 ? _isValidUTF8(buf) : isValidUTF8(buf);
-@@ -55690,7 +55714,7 @@ var debug_1 = function () {
+@@ -55690,7 +55713,7 @@ var debug_1 = function () {
    if (!debug$3) {
      try {
        /* eslint global-require: off */
@@ -379,7 +329,7 @@ index c79144a..213f262 100644
      }
      catch (error) { /* */ }
      if (typeof debug$3 !== "function") {
-@@ -56168,7 +56192,8 @@ function wrap(protocols) {
+@@ -56168,7 +56191,8 @@ function wrap(protocols) {
    Object.keys(protocols).forEach(function (scheme) {
      var protocol = scheme + ":";
      var nativeProtocol = nativeProtocols[protocol] = protocols[scheme];
@@ -389,14 +339,14 @@ index c79144a..213f262 100644
  
      // Executes a request, following redirects
      function request(input, options, callback) {
-@@ -57858,11 +57883,13 @@ const getWslDrivesMountPoint = (() => {
+@@ -57858,11 +57882,13 @@ const getWslDrivesMountPoint = (() => {
  		}
  
  		const configContent = await fs$2.readFile(configFilePath, {encoding: 'utf8'});
 -		const configMountPoint = /(?<!#.*)root\s*=\s*(?<mountPoint>.*)/g.exec(configContent);
 +    // BUN NOTE: JSC doesn't support lookbehind
 +    // BLU NOTE: Lazy to handle WSL
-+		// const configMountPoint = /(?<!#.*)root\s*=\s*(?<mountPoint>.*)/g.exec(configContent);
++    // const configMountPoint = /(?<!#.*)root\s*=\s*(?<mountPoint>.*)/g.exec(configContent);
  
 -		if (!configMountPoint) {
 +		// if (!configMountPoint) {
@@ -406,7 +356,7 @@ index c79144a..213f262 100644
  
  		mountPoint = configMountPoint.groups.mountPoint.trim();
  		mountPoint = mountPoint.endsWith('/') ? mountPoint : `${mountPoint}/`;
-@@ -60091,7 +60118,9 @@ function definePlugin(config) {
+@@ -60105,7 +60131,9 @@ function definePlugin(config) {
              ? new RegExp(
              // Mustn't be preceded by a char that can be part of an identifier
              // or a '.' that isn't part of a spread operator
@@ -417,7 +367,7 @@ index c79144a..213f262 100644
                  replacementsKeys
                      .map((str) => {
                      return str.replace(/[-[\]/{}()*+?.\\^$|]/g, '\\$&');
-@@ -60099,7 +60128,9 @@ function definePlugin(config) {
+@@ -60113,7 +60141,9 @@ function definePlugin(config) {
                      .join('|') +
                  // Mustn't be followed by a char that can be part of an identifier
                  // or an assignment (but allow equality operators)
@@ -428,7 +378,7 @@ index c79144a..213f262 100644
              : null;
          return [replacements, pattern];
      }
-@@ -62252,7 +62283,8 @@ async function resolveConfig(inlineConfig, command, defaultMode = 'development')
+@@ -62265,11 +62295,13 @@ async function resolveConfig(inlineConfig, command, defaultMode = 'development')
      // production-specific behavior, so set it here even though we haven't
      // resolve the final mode yet
      if (mode === 'production') {
@@ -436,9 +386,15 @@ index c79144a..213f262 100644
 +        // BUN NOTE: bun incorrect static replace
 +        eval(`process.env.NODE_ENV = 'production'`);
      }
+     // production env would not work in serve, fallback to development
+     if (command === 'serve' && process.env.NODE_ENV === 'production') {
+-        process.env.NODE_ENV = 'development';
++        // BUN NOTE: bun incorrect static replace
++        eval(`process.env.NODE_ENV = 'development'`);
+     }
      const configEnv = {
          mode,
-@@ -62336,7 +62368,8 @@ async function resolveConfig(inlineConfig, command, defaultMode = 'development')
+@@ -62361,7 +62393,8 @@ async function resolveConfig(inlineConfig, command, defaultMode = 'development')
          'production';
      if (isProduction) {
          // in case default mode was not production and is overwritten
@@ -448,7 +404,7 @@ index c79144a..213f262 100644
      }
      // resolve public base url
      const isBuild = command === 'build';
-@@ -62571,7 +62604,8 @@ function sortUserPlugins(plugins) {
+@@ -62587,7 +62620,8 @@ function sortUserPlugins(plugins) {
      return [prePlugins, normalPlugins, postPlugins];
  }
  async function loadConfigFromFile(configEnv, configFile, configRoot = process.cwd(), logLevel) {
@@ -458,7 +414,7 @@ index c79144a..213f262 100644
      const getTime = () => `${(performance.now() - start).toFixed(2)}ms`;
      let resolvedPath;
      let dependencies = [];
-@@ -62714,7 +62748,8 @@ async function bundleConfigFile(fileName, isESM = false) {
+@@ -62730,7 +62764,8 @@ async function bundleConfigFile(fileName, isESM = false) {
          dependencies: result.metafile ? Object.keys(result.metafile.inputs) : []
      };
  }
@@ -468,8 +424,59 @@ index c79144a..213f262 100644
  async function loadConfigFromBundledFile(fileName, bundledCode) {
      const realFileName = fs$l.realpathSync(fileName);
      const defaultLoader = _require.extensions['.js'];
+diff --git a/node_modules/vite/dist/node/chunks/dep-eb5668bc.js b/node_modules/vite/dist/node/chunks/dep-eb5668bc.js
+index fc99874..57785d5 100644
+--- a/node_modules/vite/dist/node/chunks/dep-eb5668bc.js
++++ b/node_modules/vite/dist/node/chunks/dep-eb5668bc.js
+@@ -10,10 +10,13 @@ import { fileURLToPath as __cjs_fileURLToPath } from 'node:url';
+ import { dirname as __cjs_dirname } from 'node:path';
+ import { createRequire as __cjs_createRequire } from 'node:module';
+ 
+-const __filename = __cjs_fileURLToPath(import.meta.url);
++// BUN NOTE: fileUrlToPath does not accept strings
++const __filename = __cjs_fileURLToPath(new URL(import.meta.url));
+ const __dirname = __cjs_dirname(__filename);
+-const require = __cjs_createRequire(import.meta.url);
+-const __require = require;
++// BUN NOTE: createRequire works correctly with URL only
++// BUN NOTE: refactor as `_require` so bun don't think this file is CJS
++const _require = __cjs_createRequire(new URL(import.meta.url));
++const __require = _require;
+ function _mergeNamespaces(n, m) {
+   for (var i = 0; i < m.length; i++) {
+     var e = m[i];
+@@ -1595,7 +1598,7 @@ class FileSystemLoader {
+       // if the path is not relative or absolute, try to resolve it in node_modules
+       if (newPath[0] !== "." && newPath[0] !== "/") {
+         try {
+-          fileRelativePath = require.resolve(newPath);
++          fileRelativePath = _require.resolve(newPath);
+         } catch (e) {
+           // noop
+         }
+diff --git a/node_modules/vite/dist/node/chunks/dep-f2ffe191.js b/node_modules/vite/dist/node/chunks/dep-f2ffe191.js
+index 162cb2f..e4ff3aa 100644
+--- a/node_modules/vite/dist/node/chunks/dep-f2ffe191.js
++++ b/node_modules/vite/dist/node/chunks/dep-f2ffe191.js
+@@ -4,10 +4,13 @@ import { fileURLToPath as __cjs_fileURLToPath } from 'node:url';
+ import { dirname as __cjs_dirname } from 'node:path';
+ import { createRequire as __cjs_createRequire } from 'node:module';
+ 
+-const __filename = __cjs_fileURLToPath(import.meta.url);
++// BUN NOTE: fileUrlToPath does not accept strings
++const __filename = __cjs_fileURLToPath(new URL(import.meta.url));
+ const __dirname = __cjs_dirname(__filename);
+-const require = __cjs_createRequire(import.meta.url);
+-const __require = require;
++// BUN NOTE: createRequire works correctly with URL only
++// BUN NOTE: refactor as `_require` so bun don't think this file is CJS
++const _require = __cjs_createRequire(new URL(import.meta.url));
++const __require = _require;
+ function _mergeNamespaces(n, m) {
+     for (var i = 0; i < m.length; i++) {
+         var e = m[i];
 diff --git a/node_modules/vite/dist/node/cli.js b/node_modules/vite/dist/node/cli.js
-index a16a251..c4dd0ae 100644
+index a5e378c..3f9be1c 100644
 --- a/node_modules/vite/dist/node/cli.js
 +++ b/node_modules/vite/dist/node/cli.js
 @@ -33,7 +33,8 @@ import 'node:http';
@@ -483,7 +490,7 @@ index a16a251..c4dd0ae 100644
  import 'node:zlib';
  
 diff --git a/node_modules/vite/dist/node/constants.js b/node_modules/vite/dist/node/constants.js
-index 04f08e4..97679b4 100644
+index ca404f6..ca8d45c 100644
 --- a/node_modules/vite/dist/node/constants.js
 +++ b/node_modules/vite/dist/node/constants.js
 @@ -61,7 +61,8 @@ const CLIENT_PUBLIC_PATH = `/@vite/client`;
@@ -497,7 +504,7 @@ index 04f08e4..97679b4 100644
  const ENV_ENTRY = resolve(VITE_PACKAGE_DIR, 'dist/client/env.mjs');
  const CLIENT_DIR = path.dirname(CLIENT_ENTRY);
 diff --git a/node_modules/vite/dist/node/index.js b/node_modules/vite/dist/node/index.js
-index 3262b7b..a7debb0 100644
+index e2c9a0b..8d7712b 100644
 --- a/node_modules/vite/dist/node/index.js
 +++ b/node_modules/vite/dist/node/index.js
 @@ -34,7 +34,8 @@ import 'node:http';

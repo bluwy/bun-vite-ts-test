@@ -13,9 +13,9 @@
     "postinstall": "patch-package"
   },
   "devDependencies": {
-    "bun-utilities": "^0.1.3",
+    "bun-utilities": "^0.1.5",
     "patch-package": "^6.4.7",
     "typescript": "^4.6.4",
-    "vite": "beta"
+    "vite": "^3.0.0"
   }
 }
