@@ -29,7 +29,9 @@ Below are a list of issues found, though you can see the finer changes in the [p
 
 ## Notes
 
-- Tried [bun-utilities](https://github.com/xHyroM/bun-utilities) to polyfill `child_process` for esbuild. I'm also not sure if it's 100% compatible, if comparing esbuild's usage. (See [esbuild temp patch](/patches_temp/esbuild%2B0.14.48.patch))
+- Tried [bun-utilities](https://github.com/xHyroM/bun-utilities) to polyfill `child_process` for esbuild. I'm not sure if it's 100% compatible, if comparing to esbuild's usage. (See [esbuild temp patch](/patches_temp/esbuild%2B0.14.48.patch))
+- Since bun 0.1.6, running `dev` gives `SyntaxError: Cannot declare a const variable twice: '__require'` even if `__require` is only declared once.
+- Since bun 0.1.6, accessing `require('events').EventEmitter` gives `SyntaxError: Importing binding name 'EventEmitter' is not found.`. Only happened recently, but the issue may have been hidden before.
 
 ## Development
 
