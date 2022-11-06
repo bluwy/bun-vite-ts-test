@@ -4,7 +4,9 @@ How far can we get with [bun](https://bun.sh) :eyes:
 
 ## Status
 
-Does not work yet. `child_process` blocks esbuild. If the import is temporarily removed, the CLI exits on execute without messages, and Vite's JavaScript API doesn't run because `http` isn't implemented.
+**6 November 2022**: There has been progress announced in [ViteConf](https://viteconf.org/2022/replay/bun)! Most of the issues below has been resolved, though I haven't thoroughly checked yet. Follow https://github.com/oven-sh/bun/issues/250 for up-to-date progress.
+
+**3 August 2022**: Does not work yet. `child_process` blocks esbuild. If the import is temporarily removed, the CLI exits on execute without messages, and Vite's JavaScript API doesn't run because `http` isn't implemented.
 
 ## Results
 
