@@ -1,3 +1,5 @@
+> # Update: Bun has [fully supported Vite](https://github.com/oven-sh/bun/issues/250#issuecomment-1646368911) since v0.7 (released 21 July 2023). This repo is no longer needed.
+
 # Bun + Vite + TS (test)
 
 How far can we get with [bun](https://bun.sh) :eyes:
